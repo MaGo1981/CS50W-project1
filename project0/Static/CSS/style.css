@@ -9,7 +9,7 @@ body {
     body a:hover {
       color: yellow; }
   body .content {
-    background: url("personalweb.jpg") no-repeat top right;
+    background: url("/media/marko/Storage1/Courses Online/PYTHON/HarvardX: CS50W/project0/Static/Pictures/personalweb.jpg") no-repeat top right;
     height: 1398px;
     width: 1600px;
     margin: 0 0 0 auto;
