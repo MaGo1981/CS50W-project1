@@ -8,8 +8,14 @@ body {
     text-decoration: none; }
     body a:hover {
       color: yellow; }
+  body button {
+    color: orange;
+    background: black;
+    text-decoration: none; }
+    body button:hover {
+      color: yellow; }
   body #content {
-    background: url("Mrs.png") no-repeat top right;
+    background: url("/media/marko/Storage1/Courses Online/PYTHON/HarvardX: CS50W/project0/Static/Pictures/") no-repeat top right;
     height: 1398px;
     width: 1600px;
     margin: 0 0 0 auto;
@@ -23,3 +29,11 @@ body {
       font-size: 17px;
       margin: 5px 0 10px 10px;
       padding: 0px; }
+      @media (max-width: 500px) { 
+        body #content td
+          {
+            color: red;
+        }
+      }
+header th {
+  width: 10px;}
