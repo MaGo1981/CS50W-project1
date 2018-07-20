@@ -42,7 +42,7 @@ h1, h2, h3, h4 {
   padding: 50px 100px 50px 50px;
   border-right: 1px solid #efefef;
 }
-.synopsis, .position, .education, .patent, .internship {
+.synopsis, .projects, .certification, .education, .skils {
   margin-bottom: 25px;
   margin-left: -40px;
   padding-left: 70px;
@@ -51,16 +51,16 @@ h1, h2, h3, h4 {
 .synopsis {
   border-top: 2px solid purple;
 }
-.position {
+.projects {
   border-top: 2px solid red;
 }
-.internship {
+.skils {
   border-top: 2px solid orange;
 }
-.education {
+.certification {
   border-top: 2px solid green;
 }
-.patent {
+.education {
   border-top: 2px solid navy;
 }
 
