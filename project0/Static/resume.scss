@@ -42,25 +42,31 @@ h1, h2, h3, h4 {
   padding: 50px 100px 50px 50px;
   border-right: 1px solid #efefef;
 }
-.synopsis, .projects, .certification, .education, .skils {
-  margin-bottom: 25px;
+
+%paragraphs {
+  margin-bottom: 24px;
   margin-left: -40px;
   padding-left: 70px;
 }
 
 .synopsis {
+  @extend paragraphs;
   border-top: 2px solid purple;
 }
 .projects {
+  @extend paragraphs;
   border-top: 2px solid red;
 }
 .skils {
+  @extend paragraphs;
   border-top: 2px solid orange;
 }
 .certification {
+  @extend paragraphs;
   border-top: 2px solid green;
 }
 .education {
+  @extend paragraphs;
   border-top: 2px solid navy;
 }
 
