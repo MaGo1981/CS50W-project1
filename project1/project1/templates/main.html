@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    My Book Review MAINPAGE
+    <h2>Hello, {{ email }}!</h2>
+{% endblock %}
+
+{% block body %}
+    <p>
+        This is a website for reviewing books. You can continue or logout.
+    </p>
+
+    <a href="{{ url_for('register') }}">Register...</a>
+    <a href="{{ url_for('login') }}">Login...</a>
+{% endblock %}

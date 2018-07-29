@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    My Book Review HOMEPAGE
+{% endblock %}
+
+{% block body %}
+    <p>
+        This is a website for reviewing books. You can register or login.
+    </p>
+
+    <a href="{{ url_for('register') }}">Register...</a>
+    <a href="{{ url_for('login') }}">Login...</a>
+{% endblock %}
