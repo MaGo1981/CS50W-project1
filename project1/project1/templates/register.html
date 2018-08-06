@@ -9,7 +9,7 @@
         Here you can become a registered user.
     </p>
 
-	<form action="{{ url_for('login') }}" method="post">
+	<form action="{{ url_for('register') }}" method="post">
 	  <div>
 	    <label for="name">Enter your name: </label>
 	    <input type="text" name="name" id="name" required>
@@ -19,12 +19,12 @@
 	    <input type="email" name="email" id="email" required>
 	  </div>
 	  <div>
-	    <label for="pass">Enter your password: </label>
-	    <input type="text" name="pass" id="pass" required>
+	    <label for="passw">Enter your password: </label>
+	    <input type="password" name="passw" id="pass" required>
 	  </div>
 	  <div>
 	    <label for="repeatPass">Repeat your password: </label>
-	    <input type="text" name="repeatPass" id="repeatPass" required>
+	    <input type="password" name="repeatPass" id="repeatPass" required>
 	  </div>
 	  <div class="form-example">
 	    <input type="submit" value="Submit">
