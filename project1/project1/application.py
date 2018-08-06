@@ -58,3 +58,19 @@ def main():
 @app.route("/logout", methods=["GET","POST"])
 def logout():
 	return render_template("index.html")
+
+
+
+
+@app.route("/users", methods=["GET","POST"])
+def users():
+	# List users
+	try:
+		users = db.execute("SELECT name FROM users").fetchall()
+		print("\nUsers:")
+		for user in users:
+			print(user.name)
+		return render_template("users.html", users=users)
+	except:
+		users=["Marko", "Marina"]
+		return render_template("users.html", users=users)
