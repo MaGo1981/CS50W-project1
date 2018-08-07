@@ -46,6 +46,7 @@ def register():
 
 @app.route("/login", methods=["GET","POST"])
 def login():
+	# if user is not None and user.password == request.form['password']:
     return render_template("login.html")
 
 
@@ -74,3 +75,35 @@ def users():
 	except:
 		users=["Marko", "Marina"]
 		return render_template("users.html", users=users)
+
+
+
+@app.route("/home", methods=["GET","POST"])
+def register1():
+    # imena unosa 'name', 'email', 'pass' po poljima forms (FLASK - forms)
+    name = request.form.get("name1")
+    email = request.form.get("email1")
+    passw = request.form.get("passw1")
+    if request.method == 'POST':
+	    db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
+	                {"name": name, "email": email, "passw": passw})
+	    db.commit()
+
+	    return redirect(url_for('register1'))
+    return render_template("home.html")
+
+# @app.route("/home", methods=["GET","POST"])
+# def login1():
+	# name = request.form.get("name2")
+	# passw = request.form.get("passw2")
+	# db_passw = db.execute("SELECT passw FROM users WHERE name=name").fetchone()
+	# if request.method == 'POST':
+	# 	if db_passw == passw:
+	# 		return render_template("main.html")
+	# return render_template("home.html")
+
+    	         # <form action="{{ url_for('main') }}" method="post" class="">
+              #     <div class="input">
+              #       <input type="text" name="name2" id="name">
+              #       <input type="password" name="passw2" id="passw2">
+              #     </div>
