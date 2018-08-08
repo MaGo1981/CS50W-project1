@@ -92,18 +92,12 @@ def register1():
 	    return redirect(url_for('register1'))
     return render_template("home.html")
 
-# @app.route("/home", methods=["GET","POST"])
-# def login1():
-	# name = request.form.get("name2")
-	# passw = request.form.get("passw2")
-	# db_passw = db.execute("SELECT passw FROM users WHERE name=name").fetchone()
-	# if request.method == 'POST':
-	# 	if db_passw == passw:
-	# 		return render_template("main.html")
-	# return render_template("home.html")
-
-    	         # <form action="{{ url_for('main') }}" method="post" class="">
-              #     <div class="input">
-              #       <input type="text" name="name2" id="name">
-              #       <input type="password" name="passw2" id="passw2">
-              #     </div>
+@app.route("/home", methods=["GET","POST"])
+def login1():
+	name = request.form.get("name2")
+	passw = request.form.get("passw2")
+	db_passw = db.execute("SELECT users.passw FROM users WHERE name = name").fetchone()
+	if request.method == 'POST':
+		if db_passw == passw:
+			return render_template("main.html")
+	return render_template("home.html")
