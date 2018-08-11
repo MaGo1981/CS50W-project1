@@ -5,6 +5,9 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+import requests
+
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -29,25 +32,27 @@ def index():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-    # imena unosa 'name', 'email', 'pass' po poljima forms (FLASK - forms)
-    name = request.form.get("name")
-    email = request.form.get("email")
-    passw = request.form.get("passw")
-    if request.method == 'POST':
-	    db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
-	                {"name": name, "email": email, "passw": passw})
-	    db.commit()
-
-	    return redirect(url_for('login'))
-    return render_template("register.html")
+	name = request.form.get("name")
+	email = request.form.get("email")
+	passw = request.form.get("passw")
+	if request.method == 'POST':
+		db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
+			{"name": name, "email": email, "passw": passw})
+		db.commit()
+		return redirect(url_for('login'))
+	return render_template("register.html")
 
 
 
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-	# if user is not None and user.password == request.form['password']:
-    return render_template("login.html")
+	session["name"] = request.form.get("username")
+	session["logged_in"]=True
+	session["user_id"]= db.execute("SELECT id FROM users WHERE name='user3'").fetchone()
+	return render_template("login.html", user_id=session["user_id"])
+
+
 
 
 
@@ -62,19 +67,26 @@ def logout():
 
 
 
+@app.route("/books")
+def books():
+    """Lists all books."""
+    books = db.execute("SELECT * FROM books").fetchall()
+    return render_template("books.html", books=books)
+
+
 
 @app.route("/users", methods=["GET","POST"])
 def users():
 	# List users
 	try:
-		users = db.execute("SELECT name FROM users").fetchall()
+		session["users"] = db.execute("SELECT name FROM users").fetchall()
 		print("\nUsers:")
-		for user in users:
+		for user in session["users"]:
 			print(user.name)
-		return render_template("users.html", users=users)
+		return render_template("users.html", users=session["users"])
 	except:
-		users=["Marko", "Marina"]
-		return render_template("users.html", users=users)
+		session["users"]=["Marko", "Marina"]
+		return render_template("users.html", users=session["users"])
 
 
 
@@ -99,5 +111,5 @@ def login1():
 	db_passw = db.execute("SELECT users.passw FROM users WHERE name = name").fetchone()
 	if request.method == 'POST':
 		if db_passw == passw:
-			return render_template("main.html")
+			return redirect(url_for('login'))
 	return render_template("home.html")

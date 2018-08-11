@@ -1,6 +1,9 @@
-body {
-    background-image: url("paper.gif")
-}
+body .navigation .central {
+  background: url("/media/marko/Storage1/Courses Online/PYTHON/HarvardX: CS50W/project1/project1/static/pictures/books2.jpg") no-repeat top right;
+  height: 1398px;
+  width: 1600px;
+  margin: 0 0 0 auto;
+  padding-left: 50px; }
 
 
 .navigation {
@@ -95,4 +98,4 @@ span {
     color: brown;
     font-size: 30px;
     padding-top: 50px;
-}
+
