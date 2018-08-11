@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book
+{% endblock %}
+
+{% block body %}
+    <h1>Book Details</h1>
+
+    <ul>
+        <li>ISBN: {{ book.isbn }}</li>
+        <li>Title: {{ book.title }}</li>
+        <li>Author: {{ book.author}}</li>
+    </ul>
+
+<!--     <h2>Passengers</h2>
+    <ul>
+        {% for passenger in passengers %}
+            <li>{{ passenger.name }}</li>
+        {% else %}
+            <li>No passengers.</li>
+        {% endfor %}
+    </ul> -->
+
+{% endblock %}

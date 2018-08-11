@@ -74,6 +74,18 @@ def books():
     return render_template("books.html", books=books)
 
 
+@app.route("/books/<int:book_id>")
+def book(book_id):
+    """Lists details about a single book."""
+
+    # Make sure book exists.
+    book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
+    if book is None:
+        return render_template("error.html", message="No such book.")
+    return render_template("book.html", book=book)
+
+
+
 
 @app.route("/users", methods=["GET","POST"])
 def users():
