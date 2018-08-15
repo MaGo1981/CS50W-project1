@@ -94,15 +94,28 @@ def books():
 
 @app.route("/books/<int:book_id>", methods=["GET","POST"])
 def book(book_id):
-    """Lists details about a single book."""
+	"""Lists details about a single book."""
 
-    # Make sure book exists.
-    book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
-    if book is None:
-        return render_template("error.html", message="No such book.")
-    return render_template("book.html", book=book)
+	# Make sure book exists.
+	book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
+	if book is None:
+		return render_template("error.html", message="No such book.")
 
-
+	rating = int(4)
+	review = request.form.get("review")
+	recommend_to = request.form.get("recomend")
+	genre = "action novel"
+	rev = db.execute("SELECT * FROM reviews").fetchall()
+	if request.method == 'POST':
+		try:
+			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre) VALUES (:rating, :review, :recommend_to, :genre)",
+				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre":genre})
+			db.commit()
+			return render_template("book.html", book=book)
+		except:
+			message = "Your review was not excepted. Check your code."
+			return render_template("error.html", message=message)
+	return render_template("book.html", book=book, rev=rev)
 
 
 @app.route("/logout", methods=["GET","POST"])
@@ -111,11 +124,13 @@ def logout():
 
 
 
+
+
 #--------------------------------------------------------------------------------------------------------
 
 
 
-'''login1() i register1() vjerojatno ne rade jer su na istoj ruti /home???'''
+#login1() i register1() vjerojatno ne rade jer su na istoj ruti /home???
 
 
 

@@ -29,15 +29,26 @@
 </div>
 <br>
 
-<form>
+<form action="{{ url_for('book', book_id=book.id) }}" method="post">
   Who would you recomend it for:<br>
-  <input style="width: 700px;" type="text" name="firstname">
+  <input style="width: 700px;" type="text" name="recomend">
   <br>
   Write a review:<br>
   <input style="height: 500px; width: 700px;" class = "review-text" type="text" name="review">
-  <div class="form-example">
+  <div class="button">
     <input type="submit" value="Submit">
   </div>
 </form>
+
+<ul>
+  {% for rev in reviews %}
+    <li> 
+      {{ rev.recommend_to }}
+    </li>
+    <li> 
+      {{ rev.review }}
+    </li>
+  {% endfor %}
+</ul>
 
 {% endblock %}
