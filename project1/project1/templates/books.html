@@ -1,11 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Flights
+    Books
+{% endblock %}
+
+{% block heading %}
+    Here is a list of 5000 books.
+    <h3>{{ username }}, feel free to check them out!</h3>
 {% endblock %}
 
 {% block body %}
-    <h1>All Books</h1>
+    <h4>List of Books:</h4>
 
     <ul>
         {% for book in books %}

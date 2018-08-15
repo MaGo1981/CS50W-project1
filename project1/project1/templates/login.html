@@ -1,39 +1,31 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    My Book Review LOGIN PAGE
+    My Book Review LOGIN Page
 {% endblock %}
 
 {% block body %}
     <p>
-        Here you can become a registered user.
+        <h2>Please login:</h2>
     </p>
 
     <form action="{{ url_for('main') }}" method="post">
 	  <div>
 	    <label for="username">Enter your username: </label>
-	    <input type="text" name="username" id="username" required>
+	    <input type="text" name="username" placeholder="Username" id="username" required>
 	  </div>
 	  <div>
 	    <label for="pass">Enter your password: </label>
-	    <input type="password" name="pass" id="pass" required>
+	    <input type="password" name="pass" placeholder="Password" id="pass" required>
 	  </div>
 	  <div class="form-example">
 	    <input type="submit" value="Submit">
 	  </div>
 	</form>
 
-<!-- 	<h1>Id:</h1>
 
-    <ul>
-    	{% for id in user_id %}
-    	    <h2><li>{{id}}</li></h2>
-        {% endfor %}        
-    </ul> -->
 
-    <p>
-        Here we display usernames that registered so far.
-    </p>
+
 
     <a href="{{ url_for('index') }}">Homepage...</a>
 
