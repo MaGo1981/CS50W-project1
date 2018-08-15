@@ -8,18 +8,36 @@
     <h1>Book Details</h1>
 
     <ul>
-        <li>ISBN: {{ book.isbn }}</li>
+        <li>ISBN number: {{ book.isbn }}</li>
         <li>Title: {{ book.title }}</li>
         <li>Author: {{ book.author}}</li>
+        <li>Publication year: {{ book.pub_year}}</li>
     </ul>
 
-<!--     <h2>Passengers</h2>
-    <ul>
-        {% for passenger in passengers %}
-            <li>{{ passenger.name }}</li>
-        {% else %}
-            <li>No passengers.</li>
-        {% endfor %}
-    </ul> -->
+    <br>
+    <br>
+
+<h2>Review the book {{ book.title}} by {{ book.author}} </h2>
+
+<div class="rating" style="span:hover:before {
+   content: '\2605';
+   position: absolute;
+}">
+    <br>
+<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+
+</div>
+<br>
+
+<form>
+  Who would you recomend it for:<br>
+  <input style="width: 700px;" type="text" name="firstname">
+  <br>
+  Write a review:<br>
+  <input style="height: 500px; width: 700px;" class = "review-text" type="text" name="review">
+  <div class="form-example">
+    <input type="submit" value="Submit">
+  </div>
+</form>
 
 {% endblock %}
