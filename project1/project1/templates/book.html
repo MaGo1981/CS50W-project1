@@ -17,38 +17,39 @@
     <br>
     <br>
 
-<h2>Review the book {{ book.title}} by {{ book.author}} </h2>
+    <h2>Review the book {{ book.title}} by {{ book.author}} </h2>
 
-<div class="rating" style="span:hover:before {
-   content: '\2605';
-   position: absolute;
-}">
+    <div class="rating" style="span:hover:before {
+      content: '\2605';
+      position: absolute;
+      }">
     <br>
-<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+      <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
 
-</div>
-<br>
+    </div>
+    <br>
 
-<form action="{{ url_for('book', book_id=book.id) }}" method="post">
-  Who would you recomend it for:<br>
-  <input style="width: 700px;" type="text" name="recomend">
-  <br>
-  Write a review:<br>
-  <input style="height: 500px; width: 700px;" class = "review-text" type="text" name="review">
-  <div class="button">
-    <input type="submit" value="Submit">
-  </div>
-</form>
-
-<ul>
-  {% for rev in reviews %}
-    <li> 
-      {{ rev.recommend_to }}
-    </li>
-    <li> 
-      {{ rev.review }}
-    </li>
-  {% endfor %}
-</ul>
+    <form action="{{ url_for('book', book_id=book.id) }}" method="post">
+      Who would you recomend it for:<br>
+      <input style="width: 700px;" type="text" name="recomend">
+      <br>
+      Write a review:
+      <br>
+      <input style="height: 500px; width: 700px;" class = "review-text" type="text" name="review">
+      <div class="button">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+    <h3>List of reviews:</h3>
+    <ul>
+      {% for review in reviews %}
+        <li> 
+          {{ review.review }} 
+        </li>
+        <li> 
+          {{ review.recommend_to }} 
+        </li>
+      {% endfor %}
+    </ul>
 
 {% endblock %}

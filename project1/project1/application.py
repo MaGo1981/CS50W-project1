@@ -102,20 +102,22 @@ def book(book_id):
 		return render_template("error.html", message="No such book.")
 
 	rating = int(4)
-	review = request.form.get("review")
+	review1 = request.form.get("review")
 	recommend_to = request.form.get("recomend")
 	genre = "action novel"
-	rev = db.execute("SELECT * FROM reviews").fetchall()
+	# List reviews
+	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
+
 	if request.method == 'POST':
 		try:
-			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre) VALUES (:rating, :review, :recommend_to, :genre)",
-				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre":genre})
+			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id)",
+				{"rating": rating, "review": review1, "recommend_to": recommend_to, "genre": genre, "book_id": book_id})
 			db.commit()
-			return render_template("book.html", book=book)
+			return render_template("book.html", book=book, reviews=reviews)
 		except:
 			message = "Your review was not excepted. Check your code."
 			return render_template("error.html", message=message)
-	return render_template("book.html", book=book, rev=rev)
+	return render_template("book.html", book=book, reviews=reviews)
 
 
 @app.route("/logout", methods=["GET","POST"])
