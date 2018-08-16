@@ -68,7 +68,8 @@ def main():
 	if request.method == 'POST':
 		try:
 			bookSearch=request.form.get("searchform")
-			books = db.execute("SELECT * FROM books WHERE isbn LIKE %:word%  OR title LIKE %:word% OR author LIKE %:word%",
+			bookSearch='%'+bookSearch+'%'
+			books = db.execute("SELECT * FROM books WHERE isbn LIKE :word  OR title LIKE :word OR author LIKE :word",
 								{"word": bookSearch}).fetchall()
 			return render_template("main.html", books=books, username=session["username"])
 		except:
