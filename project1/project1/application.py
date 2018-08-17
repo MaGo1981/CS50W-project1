@@ -51,11 +51,30 @@ def register():
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-	session["name"] = request.form.get("username")
-	session["logged_in"]=True
-	session["user_id"]= db.execute("SELECT id FROM users WHERE name = :name",
-                            {"name": session["name"]}).fetchone()  #name='user3'").fetchone()
-	return render_template("login.html", user_id=session["user_id"])
+	if request.method == 'POST':
+		session['name'] = request.form.get('username')
+		# saved in a browser cookie - not good for password!? but do i have to transfer variable in render template? 
+		session['password'] = request.form.get('pass')
+		db_name = db.execute("SELECT name FROM users WHERE passw = :password",
+                             {"password": session["password"]}).fetchone()
+		db_password = db.execute("SELECT passw FROM users WHERE name = :name",
+                             {"name": session["name"]}).fetchone()
+		print (session['name'])
+		print(session['password'])
+		print(db_name[0])
+		print(db_password[0])
+		
+
+		if session['name'] != db_name[0]  or \
+		session['password'] != db_password[0]:
+			message = "Wrong password, please try again!"
+			return render_template("error.html", message=message)
+		else:
+			session['logged_in'] = True
+			return redirect(url_for('main'))
+	message = "Boolean skipped!"
+	return render_template("error.html", message=message)
+
 
 
 
@@ -76,8 +95,7 @@ def main():
 			message = "Your code has crashed! Go back to route /main without logging in!"
 			return render_template("error.html", message=message)
 	else:
-		books = db.execute("SELECT * FROM books WHERE isbn LIKE '%Hat%' OR title LIKE '%Hat%' OR author LIKE '%Hat%'").fetchall()
-		return render_template("main.html", books=books, username=session["username"])
+		return render_template("main.html", username=session["username"])
 
 
 
