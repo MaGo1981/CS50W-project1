@@ -158,16 +158,17 @@ def book(book_id):
 		return render_template("error.html", message="No such book.")
 
 	rating = int(4)
-	review1 = request.form.get("review")
+	review = request.form.get("review")
 	recommend_to = request.form.get("recomend")
 	genre = "action novel"
+	user_id=session['user_id']
 	# List reviews
 	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
 
 	if request.method == 'POST':
 		try:
-			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id)",
-				{"rating": rating, "review": review1, "recommend_to": recommend_to, "genre": genre, "book_id": book_id})
+			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
+				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
 			db.commit()
 			return render_template("book.html", book=book, reviews=reviews)
 		except:
