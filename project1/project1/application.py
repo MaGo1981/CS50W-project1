@@ -7,6 +7,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 import requests
 
+from functools import wraps
+
 
 app = Flask(__name__)
 
@@ -24,6 +26,19 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
+
+def login_required(test):
+	@wraps(test)
+	def wrap(*args, **kwargs):
+		if 'logged_in' in session:
+			return test(*args, **kwargs)
+		else:
+			flash('You need to login first.')
+			return redirect(url_for('login'))
+	return wrap
+
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -32,18 +47,33 @@ def index():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-	name = request.form.get("name")
-	email = request.form.get("email")
-	passw = request.form.get("passw")
+
 	if request.method == 'POST':
-		try:
-			db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
-				{"name": name, "email": email, "passw": passw})
-			db.commit()
-			return redirect(url_for('login'))
-		except:
-			message = "Your code has crashed!"
+		name = request.form.get("name")
+		email = request.form.get("email")
+		passw = request.form.get("passw")
+		repeatPass = request.form.get("repeatPass")
+		db_name_check = db.execute("SELECT name FROM users WHERE name = :name",
+	                             {"name": name}).fetchone()
+		# print(db_name_check[0])
+		# print(name)
+
+		# not None mora biti jer ne mozes usporedjivati None type varijablu
+		if db_name_check is not None and name == db_name_check[0]:
+			message = "That user is already taken. Click 'back' and try again!"
 			return render_template("error.html", message=message)
+		elif passw != repeatPass:
+			message = "Your password and repeated password did not match. Click 'back' and try again!"
+			return render_template("error.html", message=message)
+		else:
+			try:
+				db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
+					{"name": name, "email": email, "passw": passw})
+				db.commit()
+				return redirect(url_for('login'))
+			except:
+				message = "Your code has crashed!"
+				return render_template("error.html", message=message)
 	return render_template("register.html")
 
 
@@ -55,8 +85,8 @@ def login():
 		session['name'] = request.form.get('username')
 		# saved in a browser cookie - not good for password!? but do i have to transfer variable in render template? 
 		session['password'] = request.form.get('pass')
-		db_name = db.execute("SELECT name FROM users WHERE passw = :password",
-                             {"password": session["password"]}).fetchone()
+		db_name = db.execute("SELECT name FROM users WHERE name = :name",
+                             {"name": session["name"]}).fetchone()
 		db_password = db.execute("SELECT passw FROM users WHERE name = :name",
                              {"name": session["name"]}).fetchone()
 		print (session['name'])
@@ -68,12 +98,13 @@ def login():
 		if session['name'] != db_name[0]  or \
 		session['password'] != db_password[0]:
 			message = "Wrong password, please try again!"
+			session['name']= None
 			return render_template("error.html", message=message)
 		else:
 			session['logged_in'] = True
+			session['name']= db_name[0]
 			return redirect(url_for('main'))
-	message = "Boolean skipped!"
-	return render_template("error.html", message=message)
+	return render_template("login.html")
 
 
 
@@ -81,37 +112,37 @@ def login():
 
 
 @app.route("/main", methods=["GET","POST"]) #/<string:username> ili /<string:search> Dynamic Routes RP2 pg 44
+@login_required
 def main():
-	session["username"] = request.form.get("username")
-	# session["username"]=username.capitalize()
 	if request.method == 'POST':
 		try:
 			bookSearch=request.form.get("searchform")
 			bookSearch='%'+bookSearch+'%'
 			books = db.execute("SELECT * FROM books WHERE isbn LIKE :word  OR title LIKE :word OR author LIKE :word",
 								{"word": bookSearch}).fetchall()
-			return render_template("main.html", books=books, username=session["username"])
+			return render_template("main.html", books=books)
 		except:
 			message = "Your code has crashed! Go back to route /main without logging in!"
 			return render_template("error.html", message=message)
 	else:
-		return render_template("main.html", username=session["username"])
+		return render_template("main.html")
 
 
 
 
 
 @app.route("/books", methods=["GET","POST"])
+@login_required
 def books():
-	session["username"] = request.form.get("username")
 	"""Lists all books."""
 	books = db.execute("SELECT * FROM books").fetchall()
-	return render_template("books.html", books=books, username=session["username"])
+	return render_template("books.html", books=books, name=session["name"])
 
 
 
 
 @app.route("/books/<int:book_id>", methods=["GET","POST"])
+@login_required
 def book(book_id):
 	"""Lists details about a single book."""
 
@@ -141,7 +172,9 @@ def book(book_id):
 
 @app.route("/logout", methods=["GET","POST"])
 def logout():
-	return render_template("index.html")
+	session.pop('logged_in', None)
+	session.pop('name', None)	
+	return render_template("login.html")
 
 
 
@@ -151,42 +184,11 @@ def logout():
 
 
 
-#login1() i register1() vjerojatno ne rade jer su na istoj ruti /home???
-
-
-
-
-@app.route("/home", methods=["GET","POST"])
-def login1():
-	name = request.form.get("name2")
-	passw = request.form.get("passw2")
-	db_passw = db.execute("SELECT users.passw FROM users WHERE name = name").fetchone()
-	if request.method == 'POST':
-		if db_passw == passw:
-			return redirect(url_for('login'))
-	return render_template("home.html")
-
-
-
-@app.route("/home", methods=["GET","POST"])
-def register1():
-    name1 = request.form.get("name1")
-    email1 = request.form.get("email1")
-    passw1 = request.form.get("passw1")
-    if request.method == 'POST':
-	    db.execute("INSERT INTO users(name, email, passw) VALUES (:name, :email, :passw)",
-	                {"name": name1, "email": email1, "passw": passw1})
-	    db.commit()
-	    return redirect(url_for('login1'))
-    return render_template("home.html")
-
-
-
 @app.route("/users", methods=["GET","POST"])
 def users():
 	# List users
 	try:
-		session["users"] = db.execute("SELECT name FROM users").fetchall()
+		session["users"] = db.execute("SELECT name, passw FROM users").fetchall()
 		print("\nUsers:")
 		for user in session["users"]:
 			print(user.name)
