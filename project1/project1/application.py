@@ -89,11 +89,13 @@ def login():
                              {"name": session["name"]}).fetchone()
 		db_password = db.execute("SELECT passw FROM users WHERE name = :name",
                              {"name": session["name"]}).fetchone()
+		db_user_id = db.execute("SELECT id FROM users WHERE name = :name",
+                             {"name": session["name"]}).fetchone()
 		print (session['name'])
 		print(session['password'])
 		print(db_name[0])
 		print(db_password[0])
-		
+		print(db_user_id[0])
 
 		if session['name'] != db_name[0]  or \
 		session['password'] != db_password[0]:
@@ -103,6 +105,7 @@ def login():
 		else:
 			session['logged_in'] = True
 			session['name']= db_name[0]
+			session['user_id']= db_user_id[0]
 			return redirect(url_for('main'))
 	return render_template("login.html")
 
@@ -118,8 +121,11 @@ def main():
 		try:
 			bookSearch=request.form.get("searchform")
 			bookSearch='%'+bookSearch+'%'
-			books = db.execute("SELECT * FROM books WHERE isbn LIKE :word  OR title LIKE :word OR author LIKE :word",
-								{"word": bookSearch}).fetchall()
+			if bookSearch == '%%':
+				return render_template("main.html")
+			else:
+				books = db.execute("SELECT * FROM books WHERE isbn LIKE :word  OR title LIKE :word OR author LIKE :word",
+									{"word": bookSearch}).fetchall()
 			return render_template("main.html", books=books)
 		except:
 			message = "Your code has crashed! Go back to route /main without logging in!"
@@ -173,7 +179,8 @@ def book(book_id):
 @app.route("/logout", methods=["GET","POST"])
 def logout():
 	session.pop('logged_in', None)
-	session.pop('name', None)	
+	session.pop('name', None)
+	session.pop('user_id', None)	
 	return render_template("login.html")
 
 
