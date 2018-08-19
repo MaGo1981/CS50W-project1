@@ -1,5 +1,5 @@
 body .navigation .central {
-  background: url("/media/marko/Storage1/Courses Online/PYTHON/HarvardX: CS50W/project1/project1/static/pictures/books2.jpg") no-repeat top right;
+  background: url("/static/pictures/books2.jpg") no-repeat top right;
   height: 1398px;
   width: 1600px;
   margin: 0 0 0 auto;
@@ -7,7 +7,7 @@ body .navigation .central {
 
 
 .navigation {
-    background-color: #F3DC8A;
+    /*background-color: #F3DC8A;*/
     height: 80px;
     width:70%;
     float: left;
@@ -35,7 +35,7 @@ span {
 }
 
 .login {
-    background-color: #F3DC8A; 
+    /*background-color: #F3DC8A;*/ 
     font-size: 10px;
     height: 80px;
     width:30%;
@@ -60,14 +60,14 @@ span {
 
 .central {height: 245px;
     width: 75%;
-    background-color: #c3953c;
+    /*background-color: #c3953c;*/
     float: left;
 
 }
 
 .register {height: 295px;
     width: 25%;
-    background-color: #c39947;
+    /*background-color: #c39947;*/
     float: left;
     padding-top:0px;
 }

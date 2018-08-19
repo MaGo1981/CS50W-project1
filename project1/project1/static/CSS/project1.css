@@ -1,7 +1,10 @@
 /*nesting*/
 body {
-
-  color: black; }
+  
+  background: url("books2.jpg") no-repeat top center;
+  color: black;
+  margin-left: 40px;
+  margin-right: 40px; }
   body a {
     color: blue;
     text-decoration: none; }
@@ -24,6 +27,11 @@ body a:hover {
 
 .rew-bold {
   font-weight: bold; }
+
+.list-rev {
+  background-color: #c3953c;
+  border-style: none;
+  padding-bottom: 10px }
 
 
 @media (max-width: 500px) {
