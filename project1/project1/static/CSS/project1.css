@@ -1,0 +1,33 @@
+/*nesting*/
+body {
+
+  color: black; }
+  body a {
+    color: blue;
+    text-decoration: none; }
+
+body a:hover {
+  color: green; }
+
+
+
+.review-text {
+  height: 500px;
+  width: 700px; }
+
+.recommend-text {
+  width: 700px; }
+
+.myDisplayReview {
+  height: 60px;
+  width: 700px; }
+
+.rew-bold {
+  font-weight: bold; }
+
+
+@media (max-width: 500px) {
+  body {
+    color: red; } }
+
+

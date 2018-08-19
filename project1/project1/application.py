@@ -91,15 +91,29 @@ def login():
                              {"name": session["name"]}).fetchone()
 		db_user_id = db.execute("SELECT id FROM users WHERE name = :name",
                              {"name": session["name"]}).fetchone()
-		print (session['name'])
-		print(session['password'])
-		print(db_name[0])
-		print(db_password[0])
-		print(db_user_id[0])
+		db_names = db.execute("SELECT name FROM users").fetchall()
+		# print (session['name'])
+		# print(session['password'])
+		# print(db_name[0])
+		# print(db_password[0])
+		# print(db_user_id[0])
+		# user_list=[]
+		# n=0
+		# for ime in db_names:
+			# print(db_names[n][0])
+			# user_list.append(db_names[n][0])
+			# n=n+1
+		# print (user_list)
 
-		if session['name'] != db_name[0]  or \
+		# if session['name'] not in user_list:
+		# 	message = "Username unknown, please try again!"
+		# 	session['name']= None
+		# 	return render_template("error.html", message=message)
+
+		if db_name is None or \
+		session['name'] != db_name[0]  or \
 		session['password'] != db_password[0]:
-			message = "Wrong password, please try again!"
+			message = "Wrong username or password, please try again!"
 			session['name']= None
 			return render_template("error.html", message=message)
 		else:
@@ -165,7 +179,13 @@ def book(book_id):
 	# List reviews
 	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
 
+	# Check if user already submitted a review
+	db_user_check = db.execute("SELECT user_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
+
 	if request.method == 'POST':
+		if db_user_check is not None and user_id == db_user_check[0]:
+			message = "You have already submited a review!"
+			return render_template("error.html", message=message)
 		try:
 			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
 				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
@@ -204,3 +224,8 @@ def users():
 	except:
 		session["users"]=["Marko", "Marina"]
 		return render_template("users.html", users=session["users"])
+
+
+@app.route("/home")
+def home():
+    return render_template("home.html")

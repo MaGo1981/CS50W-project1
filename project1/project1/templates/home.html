@@ -11,7 +11,7 @@
 	    </div>
             <div class="login">
     	        <span class="">
-                <form action="{{ url_for('login1') }}" method="post" class="">
+                <form action="{{ url_for('login') }}" method="post" class="">
                   <div class="input">
                     <input type="text" name="name2" id="username">
                     <input type="password" name="passw2" id="passw">
@@ -33,7 +33,7 @@
 
 	    <div class="register">
 	        
-          <form class="reguser" action="{{ url_for('register1') }}" method="post">
+          <form class="reguser" action="{{ url_for('register') }}" method="post">
                 <input type="text" name="name1" value="Name" class="reguser1" id='name' required>
                 <input type="email" name="email1" value="email@mail.com" class="reguser2" id='email' required>
                 <input type="password" name="passw1" value="Password" class="reguser3" id='pass'required>

@@ -19,23 +19,25 @@
 
     <h2>Review the book {{ book.title}} by {{ book.author}} </h2>
 
-    <div class="rating" style="span:hover:before {
-      content: '\2605';
-      position: absolute;
-      }">
-    <br>
-      <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-
-    </div>
+<div class="dropdown">
+  <button class="dropbtn">Rating</button>
+  <div class="dropdown-content">
+    <a href="#">1/5</a>
+    <a href="#">2/5</a>
+    <a href="#">3/5</a>
+    <a href="#">4/5</a>
+    <a href="#">5/5</a>
+  </div>
+</div>
     <br>
 
     <form action="{{ url_for('book', book_id=book.id) }}" method="post">
       Who would you recomend it for:<br>
-      <input style="width: 700px;" type="text" name="recomend">
+      <input type="text" name="recomend" class= 'recommend-text'>
       <br>
       Write a review:
       <br>
-      <input style="height: 500px; width: 700px;" class = "review-text" type="text" name="review">
+      <input class = "review-text" type="text" name="review">
       <div class="button">
         <input type="submit" value="Submit">
       </div>
@@ -44,10 +46,18 @@
     <ul>
       {% for review in reviews %}
         <li> 
-          {{ review.review }} 
-        </li>
-        <li> 
-          {{ review.recommend_to }} 
+          <div>
+          <span class='rew-bold'>{{ review.user_id }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
+          </div>
+          <div>
+          Recommends it for: <span class='rew-bold'>{{ review.recommend_to }}</span>
+          </div>
+          <div>
+          Shelves: <span class='rew-bold'>{{ review.genre }}</span>
+          </div>
+          <div class="myDisplayReview">
+          Review: {{ review.review }} 
+          </div>
         </li>
       {% endfor %}
     </ul>
