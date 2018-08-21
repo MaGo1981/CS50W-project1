@@ -48,27 +48,29 @@
       <br>
 
       <br>
-      <div class='list-rev'>    
-        <h3>List of reviews:</h3>
-      </div>
+      <div class=rev-block>
+        <div class='list-rev1'>    
+          <h3>List of reviews:</h3>
+        </div>
 
-      <ul class='list-rev'>
-        {% for review in reviews %}
-          <li> 
-            <div>
-            <span class='rew-bold'>{{ review.user_id }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
-            </div>
-            <div>
-            Recommends it for: <span class='rew-bold'>{{ review.recommend_to }}</span>
-            </div>
-            <div>
-            Shelves: <span class='rew-bold'>{{ review.genre }}</span>
-            </div>
-            <div class="myDisplayReview">
-            Review: {{ review.review }} 
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
+        <ul class='list-rev'>
+          {% for review in reviews %}
+            <li> 
+              <div>
+              <span class='rew-bold'>{{ review.user_id }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
+              </div>
+              <div>
+              Recommends it for: <span class='rew-bold'>{{ review.recommend_to }}</span>
+              </div>
+              <div>
+              Shelves: <span class='rew-bold'>{{ review.genre }}</span>
+              </div>
+              <div class="myDisplayReview">
+              Review: {{ review.review }} 
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
 
 {% endblock %}
