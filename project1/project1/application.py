@@ -178,6 +178,15 @@ def book(book_id):
 	user_id=session['user_id']
 	# List reviews
 	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
+	# db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id;").fetchall()
+	db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
+	db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id WHERE reviews.user_id = users.id;").fetchone()
+	# FIRST CREATE NEW TABLE WITH JOIN, (WITH OR WITHOUT COMMIT?) AND THAN SELECT FROM IT!
+	# OR LOOP OVER TWO SETS IN JINJA??
+	# OR LOOP OVER TWO VARIABLES (ROWS) FORM ONE SET (TABLE)
+	# ILI UBACI USERNAME U REVIEWS
+	db_name=db_name[0]
+	print(db_name)
 
 	# Check if user already submitted a review
 	db_user_check = db.execute("SELECT user_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
@@ -190,11 +199,11 @@ def book(book_id):
 			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
 				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
 			db.commit()
-			return render_template("book.html", book=book, reviews=reviews)
+			return render_template("book.html", book=book, reviews=reviews, db_name=db_name)
 		except:
 			message = "Your review was not excepted. Check your code."
 			return render_template("error.html", message=message)
-	return render_template("book.html", book=book, reviews=reviews)
+	return render_template("book.html", book=book, reviews=reviews, db_name=db_name)
 
 
 @app.route("/logout", methods=["GET","POST"])

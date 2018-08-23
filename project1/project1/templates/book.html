@@ -57,7 +57,7 @@
           {% for review in reviews %}
             <li> 
               <div>
-              <span class='rew-bold'>{{ review.user_id }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
+              <span class='rew-bold'>{{ db_name }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
               </div>
               <div>
               Recommends it for: <span class='rew-bold'>{{ review.recommend_to }}</span>
