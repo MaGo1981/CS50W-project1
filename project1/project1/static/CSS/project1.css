@@ -5,10 +5,18 @@ html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
-
                 background: url("books2.jpg") no-repeat top center;
+                background-attachment: fixed;
                 background-size: 100% 100%;
             }
+
+textarea {
+    resize: none; }
+
+body a {
+    color: blue;
+    text-decoration: none; }
+
 body a {
     color: blue;
     text-decoration: none; }
@@ -20,7 +28,7 @@ body a:hover {
 
 .review-text {
   height: 500px;
-  width: 700px; }
+  width: 710px; }
 
 .recommend-text {
   width: 700px; }
@@ -44,15 +52,15 @@ body a:hover {
   border-style: none;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-top: -20px }
+  margin-top: 0px }
 
   .list-rev1 {
-  /*background-color: #c3953c;*/  
+    
   background-size: 100% 100%;
   border-style: none;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-top: -52px }
+  margin-top: 20px }
 
 
 @media (max-width: 500px) {

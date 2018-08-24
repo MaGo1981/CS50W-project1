@@ -15,37 +15,78 @@
     </ul>
 
     <br>
-    <br>
-
-    <h2>Review the book {{ book.title}} by {{ book.author}} </h2>
-
-<div class="dropdown">
-  <button class="dropbtn">Rating</button>
-  <div class="dropdown-content">
-    <a href="#">1/5</a>
-    <a href="#">2/5</a>
-    <a href="#">3/5</a>
-    <a href="#">4/5</a>
-    <a href="#">5/5</a>
-  </div>
-</div>
-    <br>
-
-    <form action="{{ url_for('book', book_id=book.id) }}" method="post">
-      Who would you recomend it for:<br>
-      <input type="text" name="recomend" class= 'recommend-text'>
-      <br>
-      Write a review:
-      <br>
-      <input class = "review-text" type="text" name="review">
-      <div class="button">
-        <input type="submit" value="Submit">
-      </div>
-      </form>
+    
       
-      <br>
-      <br>
-      <br>
+      <table>
+          <thead>
+              <tr>
+                  <th colspan="2"><h2>Review the book {{ book.title}} by {{ book.author}} </h2></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>
+                        Rating 1 to 5:
+                        <label class="checkbox-inline">
+                          <input name='rating' type="checkbox" value="1">1
+                        </label>
+                        <label class="checkbox-inline">
+                          <input name='rating' type="checkbox" value="2">2
+                        </label>
+                        <label class="checkbox-inline">
+                          <input name='rating' type="checkbox" value="3">3
+                        </label>
+                        <label class="checkbox-inline">
+                          <input name='rating' type="checkbox" value="4">4
+                        </label>
+                        <label class="checkbox-inline">
+                          <input name='rating' type="checkbox" value="5">5
+                        </label>
+
+                  </td>
+              </tr>
+              
+              <tr>
+                  <td>
+                      <form action="{{ url_for('book', book_id=book.id) }}" method="post">
+                        Shelves:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <input type="text" name="genre" class= 'recommend-text'>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        Who would you recomend it for:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <input type="text" name="recomend" class= 'recommend-text'>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td>
+                      Write a review:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <textarea class = "review-text" type="text" name="review"></textarea>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="button">
+                      <input type="submit" value="Submit">
+                    </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
 
       <br>
       <div class=rev-block>
