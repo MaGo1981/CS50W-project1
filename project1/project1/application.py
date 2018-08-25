@@ -199,6 +199,12 @@ def book(book_id):
 		db_book_id_check_list.append(tup[0])
 
 
+	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "QLHk8LGi3X0XHiqWXA9Jw", "isbns": "1632168146"})
+	print(res.json())
+	print(res.json()['books'][0]['id']) # izvlacenje pojedinih vrijednosti iz JSON-A
+	'''{'books': [{'id': 29207858, 'isbn': '1632168146', 'isbn13': '9781632168146', 'ratings_count': 0, 'reviews_count': 2, 'text_reviews_count': 0, 'work_ratings_count': 26, 'work_reviews_count': 114, 
+	'work_text_reviews_count': 10, 'average_rating': '4.04'}]}'''
+
 	if request.method == 'POST':
 		if db_user_check is not None and user_id == db_user_check[0]:
 			if book_id in db_book_id_check_list:
