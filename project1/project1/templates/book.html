@@ -95,19 +95,20 @@
         </div>
 
         <ul class='list-rev'>
-          {% for review in reviews %}
+          {% for info in db_info %}
             <li> 
               <div>
-              <span class='rew-bold'>{{ db_name }}</span> rated it: <span class='rew-bold'>{{ review.rating }} out of 5</span>
+              <span class='rew-bold'>{{ info[0] }}</span> rated it:<span class='rew-bold'>{{ info[1] }} out of 5</span>
               </div>
               <div>
-              Recommends it for: <span class='rew-bold'>{{ review.recommend_to }}</span>
+              <div>
+              Recommends it for: <span class='rew-bold'>{{ info[2] }}</span>
               </div>
               <div>
-              Shelves: <span class='rew-bold'>{{ review.genre }}</span>
+              Shelves: <span class='rew-bold'>{{ info[3] }}</span>
               </div>
               <div class="myDisplayReview">
-              Review: {{ review.review }} 
+              Review: {{ info[4] }} 
               </div>
             </li>
           {% endfor %}

@@ -171,39 +171,48 @@ def book(book_id):
 	if book is None:
 		return render_template("error.html", message="No such book.")
 
+
+	# Get data from input form	
 	rating = int(4)
 	review = request.form.get("review")
 	recommend_to = request.form.get("recomend")
 	genre = "action novel"
 	user_id=session['user_id']
+
+
 	# List reviews
 	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
-	# db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id;").fetchall()
-	db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
-	db_name = db.execute("SELECT name FROM users JOIN reviews ON reviews.user_id = users.id WHERE reviews.user_id = users.id;").fetchone()
-	# FIRST CREATE NEW TABLE WITH JOIN, (WITH OR WITHOUT COMMIT?) AND THAN SELECT FROM IT!
-	# OR LOOP OVER TWO SETS IN JINJA??
-	# OR LOOP OVER TWO VARIABLES (ROWS) FORM ONE SET (TABLE)
-	# ILI UBACI USERNAME U REVIEWS
-	db_name=db_name[0]
-	print(db_name)
 
-	# Check if user already submitted a review
+	# Select data from two different tables
+	db_info = db.execute("SELECT name, rating, recommend_to, genre, review, book_id FROM users JOIN reviews ON reviews.user_id = users.id WHERE reviews.user_id = users.id and book_id= :id", {"id": book_id}).fetchall()
+
+	print(db_info)
+
+	# Check if user already submitted a review for the book, if not - submit
 	db_user_check = db.execute("SELECT user_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
+	db_book_id_check = db.execute("SELECT book_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchall() 
+	# dobijemo listu tople elemenata koji sadrže book id za koji je ovaj korisnik predao review (dvaput za 117) - [(4843,), (117,), (592,), (117,)]
+	# stvaramo listu brojeva da možemo provjeravati u petlji
+	db_book_id_check_list = []
+
+	for tup in db_book_id_check:
+		db_book_id_check_list.append(tup[0])
+
 
 	if request.method == 'POST':
 		if db_user_check is not None and user_id == db_user_check[0]:
-			message = "You have already submited a review!"
-			return render_template("error.html", message=message)
+			if book_id in db_book_id_check_list:
+				message = "You have already submited a review for this book!"
+				return render_template("error.html", message=message)
 		try:
 			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
 				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
 			db.commit()
-			return render_template("book.html", book=book, reviews=reviews, db_name=db_name)
+			return render_template("book.html", book=book, reviews=reviews, db_info=db_info)
 		except:
 			message = "Your review was not excepted. Check your code."
 			return render_template("error.html", message=message)
-	return render_template("book.html", book=book, reviews=reviews, db_name=db_name)
+	return render_template("book.html", book=book, reviews=reviews, db_info=db_info)
 
 
 @app.route("/logout", methods=["GET","POST"])
