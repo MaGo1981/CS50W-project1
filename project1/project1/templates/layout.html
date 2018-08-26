@@ -3,7 +3,12 @@
     <head>
     	<link rel="stylesheet" type="text/css" href="/static/CSS/normalize.css">
     	<link rel="stylesheet" type="text/css" href="/static/CSS/project1.css">
-        <title>My Book Review Website!</title>
+        <title>ReadBooks</title>
+        <span class='head';><a href="{{ url_for('register') }}">register</a></span>
+        <span class='head';><a href="{{ url_for('login') }}">login</a></span>
+        <span class='head';><a href="{{ url_for('main') }}">search</a></span>
+        <span class='head';><a href="{{ url_for('books') }}">list</a></span>
+        <span class='head';><a href="{{ url_for('logout') }}">logout</a></span>
     </head>
     <body>
         <h1>{% block heading %}{% endblock %}</h1>

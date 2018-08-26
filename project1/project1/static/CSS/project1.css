@@ -5,7 +5,7 @@ html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                background: url("books2.jpg") no-repeat top center;
+                background: url("books1.jpg") no-repeat top center;
                 background-attachment: fixed;
                 background-size: 100% 100%;
             }
@@ -13,18 +13,18 @@ html, body {
 textarea {
     resize: none; }
 
-body a {
-    color: blue;
-    text-decoration: none; }
 
 body a {
-    color: blue;
+    color: #336699;
     text-decoration: none; }
 
 body a:hover {
-  color: green; }
+  color: #E18A07; }
 
 
+@media (max-width: 500px) {
+  body {
+    background: url("books3.jpg") no-repeat top center; } }
 
 .review-text {
   height: 500px;
@@ -34,37 +34,41 @@ body a:hover {
   width: 700px; }
 
 .myDisplayReview {
-  height: 60px;
-  width: 700px; }
+  width: 700px;
+  max-height: 500px;
+  margin-bottom: 20px }
 
 .rew-bold {
   font-weight: bold; }
 
+.user {
+  color: #336699; 
+  margin-bottom: 20px;
+  border: none;}
+
+.user-line {
+  margin-bottom: 5px;
+  border: none;}
+
 
  .rev-block {
-  float: right;
-  margin-top:-900px;
+  float: none;
+  width: 700px; 
+  border: none;
+  margin-top: 0px;
   position-top: absolute; }
 
 .list-rev {
-  /*background-color: #c3953c;*/
   background-size: 100% 100%;
+  list-style-type: none;
   border-style: none;
+  width: 700px; 
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-top: 0px }
+  margin-bottom: 20px }
 
-  .list-rev1 {
-    
-  background-size: 100% 100%;
-  border-style: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 20px }
+.head {
+  margin-left: 20px; }
 
-
-@media (max-width: 500px) {
-  body {
-    color: red; } }
 
 

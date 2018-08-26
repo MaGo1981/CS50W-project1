@@ -180,9 +180,6 @@ def book(book_id):
 	user_id=session['user_id']
 
 
-	# List reviews
-	reviews = db.execute("SELECT * FROM reviews WHERE book_id = :id", {"id": book_id}).fetchall()
-
 	# Select data from two different tables
 	db_info = db.execute("SELECT name, rating, recommend_to, genre, review, book_id FROM users JOIN reviews ON reviews.user_id = users.id WHERE reviews.user_id = users.id and book_id= :id", {"id": book_id}).fetchall()
 
@@ -199,12 +196,18 @@ def book(book_id):
 		db_book_id_check_list.append(tup[0])
 
 
-	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "QLHk8LGi3X0XHiqWXA9Jw", "isbns": "1632168146"})
+	# Display (if available) the average rating and number of ratings the work has received from Goodreads.
+	isbn = db.execute("SELECT isbn FROM books WHERE id = :id", {"id": book_id}).fetchone()
+	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "QLHk8LGi3X0XHiqWXA9Jw", "isbns": isbn})
 	print(res.json())
-	print(res.json()['books'][0]['id']) # izvlacenje pojedinih vrijednosti iz JSON-A
+	print(res.json()['books'][0]['isbn']) # izvlacenje pojedinih vrijednosti iz JSON-A
 	'''{'books': [{'id': 29207858, 'isbn': '1632168146', 'isbn13': '9781632168146', 'ratings_count': 0, 'reviews_count': 2, 'text_reviews_count': 0, 'work_ratings_count': 26, 'work_reviews_count': 114, 
 	'work_text_reviews_count': 10, 'average_rating': '4.04'}]}'''
+	average_rating = res.json()['books'][0]['average_rating']
+	work_ratings_count = res.json()['books'][0]['work_ratings_count']
 
+
+	# Post a reveiw
 	if request.method == 'POST':
 		if db_user_check is not None and user_id == db_user_check[0]:
 			if book_id in db_book_id_check_list:
@@ -214,11 +217,11 @@ def book(book_id):
 			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
 				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
 			db.commit()
-			return render_template("book.html", book=book, reviews=reviews, db_info=db_info)
+			return render_template("book.html", book=book, db_info=db_info, average_rating=average_rating, work_ratings_count=work_ratings_count)
 		except:
 			message = "Your review was not excepted. Check your code."
 			return render_template("error.html", message=message)
-	return render_template("book.html", book=book, reviews=reviews, db_info=db_info)
+	return render_template("book.html", book=book, db_info=db_info, average_rating=average_rating, work_ratings_count=work_ratings_count)
 
 
 @app.route("/logout", methods=["GET","POST"])

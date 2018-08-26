@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    My Book Review MAIN Page
-    <h2>Hello, {{ session['name'] }}! Your user_id is {{ session['user_id'] }}.</h2>
+    ReadBooks
+    <h2>Hello {{ session['name'] }}, welcome to ReadBooks!</h2>
 {% endblock %}
 
 {% block body %}
@@ -26,7 +26,7 @@
     {% endfor %}
 </ul>
 <p>
-    This is a website for reviewing books. You can <a href="{{ url_for('books') }}">review books</a> or <a href="{{ url_for('logout') }}">logout.</a>.
+    Take a look at a <a href="{{ url_for('books') }}">list</a> of 5000 books or use the search engine. 
 </p>
 
 

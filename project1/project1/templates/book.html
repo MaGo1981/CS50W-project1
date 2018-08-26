@@ -8,10 +8,12 @@
     <h1>Book Details</h1>
 
     <ul>
-        <li>ISBN number: {{ book.isbn }}</li>
-        <li>Title: {{ book.title }}</li>
-        <li>Author: {{ book.author}}</li>
-        <li>Publication year: {{ book.pub_year}}</li>
+        <li class='rew-bold'>ISBN number: {{ book.isbn }}</li>
+        <li class='rew-bold'>Title: {{ book.title }}</li>
+        <li class='rew-bold'>Author: {{ book.author}}</li>
+        <li class='rew-bold'>Publication year: {{ book.pub_year}}</li>
+        <li class='rew-bold'>Average rating from Goodreads: {{ average_rating}}</li>
+        <li class='rew-bold'>Number of ratings from Goodreads: {{ work_ratings_count}}</li>
     </ul>
 
     <br>
@@ -90,15 +92,14 @@
 
       <br>
       <div class=rev-block>
-        <div class='list-rev1'>    
-          <h3>List of reviews:</h3>
-        </div>
+    
+        <h3>List of reviews:</h3>
 
         <ul class='list-rev'>
           {% for info in db_info %}
             <li> 
-              <div>
-              <span class='rew-bold'>{{ info[0] }}</span> rated it:<span class='rew-bold'>{{ info[1] }} out of 5</span>
+              <div class='user-line'>
+              <span class='user rew-bold'>{{ info[0] }}</span> rated it: <span class='rew-bold'>{{ info[1] }} out of 5</span>
               </div>
               <div>
               <div>
@@ -108,7 +109,11 @@
               Shelves: <span class='rew-bold'>{{ info[3] }}</span>
               </div>
               <div class="myDisplayReview">
-              Review: {{ info[4] }} 
+                <span class='rew-bold'>
+                  Review:
+                </span>
+                  {{ info[4] }} 
+
               </div>
             </li>
           {% endfor %}

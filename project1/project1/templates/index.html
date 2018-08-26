@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    My Book Review HOMEPAGE
+    Welcome to ReadBooks!
 {% endblock %}
 
 {% block body %}
-    <p>
-        This is a website for reviewing books. You can register or login.
+    <p class='rew-bold'>
+        This is a website for reviewing books. You can <a href="{{ url_for('register') }}">register</a> or <a href="{{ url_for('login') }}">login</a>.
     </p>
 
-    <a href="{{ url_for('register') }}">Register...</a>
-    <a href="{{ url_for('login') }}">Login...</a>
 {% endblock %}
