@@ -173,10 +173,11 @@ def book(book_id):
 
 
 	# Get data from input form	
-	rating = int(4)
+	rating = request.form.get("rating")
+	
 	review = request.form.get("review")
 	recommend_to = request.form.get("recomend")
-	genre = "action novel"
+	genre = request.form.get("genre")
 	user_id=session['user_id']
 
 
