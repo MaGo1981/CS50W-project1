@@ -174,7 +174,6 @@ def book(book_id):
 
 	# Get data from input form	
 	rating = request.form.get("rating")
-	
 	review = request.form.get("review")
 	recommend_to = request.form.get("recomend")
 	genre = request.form.get("genre")
@@ -218,9 +217,10 @@ def book(book_id):
 			db.execute("INSERT INTO reviews(rating, review, recommend_to, genre, book_id, user_id) VALUES (:rating, :review, :recommend_to, :genre, :book_id, :user_id)",
 				{"rating": rating, "review": review, "recommend_to": recommend_to, "genre": genre, "book_id": book_id, "user_id": user_id})
 			db.commit()
+			db_info = db.execute("SELECT name, rating, recommend_to, genre, review, book_id FROM users JOIN reviews ON reviews.user_id = users.id WHERE reviews.user_id = users.id and book_id= :id", {"id": book_id}).fetchall()
 			return render_template("book.html", book=book, db_info=db_info, average_rating=average_rating, work_ratings_count=work_ratings_count)
 		except:
-			message = "Your review was not excepted. Check your code."
+			message = "Your review was not excepted. Have you checked your rating box?."
 			return render_template("error.html", message=message)
 	return render_template("book.html", book=book, db_info=db_info, average_rating=average_rating, work_ratings_count=work_ratings_count)
 
@@ -233,7 +233,17 @@ def logout():
 	return render_template("login.html")
 
 
+@app.route("/api/<isbn>", methods=["GET","POST"])
+@login_required
+def api(isbn):
+	"""Lists details about a single book."""
 
+	# Make sure book exists.
+	book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+	if book is None:
+		return render_template("error.html", message="No such book.")
+	else:
+		return render_template("error.html", message="Hello.")
 
 
 #--------------------------------------------------------------------------------------------------------

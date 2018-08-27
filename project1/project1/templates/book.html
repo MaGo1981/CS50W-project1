@@ -98,21 +98,27 @@
           {% for info in db_info %}
             <li> 
               <div class='user-line'>
-              <span class='user rew-bold'>{{ info[0] }}</span> rated it: <span class='rew-bold'>{{ info[1] }} out of 5</span>
+                {% if info[1] %}
+                  <span class='user rew-bold'>{{ info[0] }}</span> rated it: <span class='rew-bold'>{{ info[1] }} out of 5</span>
+                {% endif %}
               </div>
+
               <div>
-              <div>
-              Recommends it for: <span class='rew-bold'>{{ info[2] }}</span>
+                {% if info[2] %}
+                  Recommends it for: <span class='rew-bold'>{{ info[2] }}</span>
+                {% endif %}
               </div>
+
               <div>
-              Shelves: <span class='rew-bold'>{{ info[3] }}</span>
+                {% if info[3] %}
+                  Shelves: <span class='rew-bold'>{{ info[3] }}</span>
+                {% endif %}
               </div>
               <div class="myDisplayReview">
-                <span class='rew-bold'>
-                  Review:
-                </span>
-                  {{ info[4] }} 
-
+                {% if info[4] %}
+                  <span class='rew-bold'></span>Review: <span> {{ info[4] }} </span>
+                  
+                {% endif %}
               </div>
             </li>
           {% endfor %}

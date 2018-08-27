@@ -6,9 +6,11 @@
         <title>ReadBooks</title>
         <span class='head';><a href="{{ url_for('register') }}">register</a></span>
         <span class='head';><a href="{{ url_for('login') }}">login</a></span>
-        <span class='head';><a href="{{ url_for('main') }}">search</a></span>
-        <span class='head';><a href="{{ url_for('books') }}">list</a></span>
-        <span class='head';><a href="{{ url_for('logout') }}">logout</a></span>
+        {% if session['logged_in'] %}
+            <span class='head';><a href="{{ url_for('main') }}">search</a></span>
+            <span class='head';><a href="{{ url_for('books') }}">list</a></span>
+            <span class='head';><a href="{{ url_for('logout') }}">logout</a></span>
+        {% endif %}
     </head>
     <body>
         <h1>{% block heading %}{% endblock %}</h1>
