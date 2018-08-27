@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    
+{% endblock %}
+
+{% block body %}
+    <ul>
+        <li class='rew-bold'>ISBN number: {{ book.isbn }}</li>
+        <li class='rew-bold'>Title: {{ book.title }}</li>
+        <li class='rew-bold'>Author: {{ book.author}}</li>
+        <li class='rew-bold'>Publication year: {{ book.pub_year}}</li>
+        <li class='rew-bold'>Average rating from Goodreads: {{ average_rating}}</li>
+        <li class='rew-bold'>Number of ratings from Goodreads: {{ work_ratings_count}}</li>
+    </ul>
+
+{% endblock %}
