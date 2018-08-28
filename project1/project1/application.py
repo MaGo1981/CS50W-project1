@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session,render_template, request, redirect, url_for
+from flask import Flask, session,render_template, request, redirect, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -236,21 +236,25 @@ def logout():
 @app.route("/api/<isbn>", methods=["GET","POST"])
 @login_required
 def api(isbn):
-	# Display (if available) the average rating and number of ratings the work has received from Goodreads.
+	book_info = db.execute("SELECT title, author, pub_year, isbn FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+	print(book_info) #[('Memory', 'Doug Lloyd', '2015', '1632168146')]
+
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "QLHk8LGi3X0XHiqWXA9Jw", "isbns": isbn})
 	print(res.json())
 	print(res.json()['books'][0]['isbn']) # izvlacenje pojedinih vrijednosti iz JSON-A
 	'''{'books': [{'id': 29207858, 'isbn': '1632168146', 'isbn13': '9781632168146', 'ratings_count': 0, 'reviews_count': 2, 'text_reviews_count': 0, 'work_ratings_count': 26, 'work_reviews_count': 114, 
 	'work_text_reviews_count': 10, 'average_rating': '4.04'}]}'''
+	reviews_count = res.json()['books'][0]['work_reviews_count']
 	average_rating = res.json()['books'][0]['average_rating']
-	work_ratings_count = res.json()['books'][0]['work_ratings_count']
 
-	# Make sure book exists.
-	book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
-	if book is None:
-		return render_template("error.html", message="No such book.")
-	else:
-		return render_template("api.html", book=book, average_rating=average_rating, work_ratings_count=work_ratings_count)
+	return jsonify(title=book_info[0][0],
+                   author=book_info[0][1],
+                   year=book_info[0][2],
+                   isbn=book_info[0][3],
+                   review_count=reviews_count,
+                   average_score=average_rating)
+
+
 
 
 #--------------------------------------------------------------------------------------------------------
