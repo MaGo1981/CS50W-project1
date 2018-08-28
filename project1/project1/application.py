@@ -39,9 +39,9 @@ def login_required(test):
 
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+# @app.route("/")
+# def index():
+#     return render_template("index.html")
 
 
 
@@ -79,7 +79,7 @@ def register():
 
 
 
-@app.route("/login", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def login():
 	if request.method == 'POST':
 		session['name'] = request.form.get('username')

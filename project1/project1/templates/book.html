@@ -91,9 +91,10 @@
 
       <br>
       <div class=rev-block>
-    
+        {% if db_info %}
         <h3>List of reviews:</h3>
-
+        {% endif %}
+        
         <ul class='list-rev'>
           {% for info in db_info %}
             <li> 

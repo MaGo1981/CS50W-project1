@@ -4,8 +4,10 @@
     	<link rel="stylesheet" type="text/css" href="/static/CSS/normalize.css">
     	<link rel="stylesheet" type="text/css" href="/static/CSS/project1.css">
         <title>ReadBooks</title>
-        <span class='head';><a href="{{ url_for('register') }}">register</a></span>
-        <span class='head';><a href="{{ url_for('login') }}">login</a></span>
+        {% if not session['logged_in'] %}
+            <span class='head';><a href="{{ url_for('register') }}">register</a></span>
+            <span class='head';><a href="{{ url_for('login') }}">login</a></span>
+        {% endif %}
         {% if session['logged_in'] %}
             <span class='head';><a href="{{ url_for('main') }}">search</a></span>
             <span class='head';><a href="{{ url_for('books') }}">list</a></span>
