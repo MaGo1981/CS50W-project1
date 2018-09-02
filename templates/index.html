@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    Welcome to ReadBooks!
+{% endblock %}
+
+{% block body %}
+    <p class='rew-bold'>
+        This is a website for reviewing books. You can <a href="{{ url_for('register') }}">register</a> or <a href="{{ url_for('login') }}">login</a>.
+    </p>
+
+{% endblock %}

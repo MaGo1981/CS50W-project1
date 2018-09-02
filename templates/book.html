@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book
+{% endblock %}
+
+{% block body %}
+    <h1>Book Details</h1>
+
+    <ul>
+        <li class='rew-bold'>ISBN number: {{ book.isbn }}</li>
+        <li class='rew-bold'>Title: {{ book.title }}</li>
+        <li class='rew-bold'>Author: {{ book.author}}</li>
+        <li class='rew-bold'>Publication year: {{ book.pub_year}}</li>
+        <li class='rew-bold'>Average rating from Goodreads: {{ average_rating}}</li>
+        <li class='rew-bold'>Number of ratings from Goodreads: {{ work_ratings_count}}</li>
+    </ul>
+
+    <br>
+    
+      
+      <table>
+          <thead>
+              <tr>
+                  <th colspan="2"><h2>Review the book {{ book.title}} by {{ book.author}} </h2></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>
+                      <form action="{{ url_for('book', book_id=book.id) }}" method="post">
+                        <span>Rating 1 to 5:  
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="rating" class= 'rating-form' value="1"></span>1
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="rating" class= 'rating-form' value="2"></span>2
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="rating" class= 'rating-form' value="3"></span>3
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="rating" class= 'rating-form' value="4"></span>4
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" name="rating" class= 'rating-form' value="5"></span>5
+                        </label>
+                  </td>
+              </tr>
+              
+              <tr>
+                  <td>
+                        Shelves:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <input type="text" name="genre" class= 'recommend-text'>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        Who would you recomend it for:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <input type="text" name="recomend" class= 'recommend-text'>
+                  </td>
+              </tr>
+
+              <tr>
+                  <td>
+                      Write a review:
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <textarea class = "review-text" type="text" name="review"></textarea>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <div class="button">
+                      <input type="submit" value="Submit">
+                    </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+      <br>
+      <div class=rev-block>
+        {% if db_info %}
+        <h3>List of reviews:</h3>
+        {% endif %}
+        
+        <ul class='list-rev'>
+          {% for info in db_info %}
+            <li> 
+              <div class='user-line'>
+                {% if info[1] %}
+                  <span class='user rew-bold'>{{ info[0] }}</span> rated it: <span class='rew-bold'>{{ info[1] }} out of 5</span>
+                {% endif %}
+              </div>
+
+              <div>
+                {% if info[2] %}
+                  Recommends it for: <span class='rew-bold'>{{ info[2] }}</span>
+                {% endif %}
+              </div>
+
+              <div>
+                {% if info[3] %}
+                  Shelves: <span class='rew-bold'>{{ info[3] }}</span>
+                {% endif %}
+              </div>
+              <div class="myDisplayReview">
+                {% if info[4] %}
+                  <span class='rew-bold'></span>Review: <span> {{ info[4] }} </span>
+                  
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+{% endblock %}
