@@ -188,8 +188,8 @@ def book(book_id):
 	# Check if user already submitted a review for the book, if not - submit
 	db_user_check = db.execute("SELECT user_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchone()
 	db_book_id_check = db.execute("SELECT book_id FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchall() 
-	# dobijemo listu tople elemenata koji sadrže book id za koji je ovaj korisnik predao review (dvaput za 117) - [(4843,), (117,), (592,), (117,)]
-	# stvaramo listu brojeva da možemo provjeravati u petlji
+	# dobijemo listu tople elemenata koji sadrze book id za koji je ovaj korisnik predao review (dvaput za 117) - [(4843,), (117,), (592,), (117,)]
+	# stvaramo listu brojeva da mozemo provjeravati u petlji
 	db_book_id_check_list = []
 
 	for tup in db_book_id_check:
